@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreambook.mapper.UserMapper">
+
+
+    <resultMap type="com.dreambook.doMain.User" id="userMap">
+        <id property="uid" column="uid"/>
+        <result property="username" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="usercode" column="user_code"/>
+        <collection property="roles" ofType="com.dreambook.doMain.Role">
+            <id property="rid" column="rid"/>
+            <result property="rname" column="rname"/>
+            <collection property="modules" ofType="com.dreambook.doMain.Module">
+                <id property="mid" column="mid"/>
+                <result property="mname" column="mname"/>
+                <result property="parentid" column="p_id"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="findByUserName" parameterType="String" resultMap="userMap">
+   SELECT
+	u.*,
+	r.*,
+	m.*
+FROM
+	t_user u
+	INNER JOIN t_user_role ur ON ur.user_id= u.uid
+	INNER JOIN t_role r ON r.rid = ur.role_id
+	INNER JOIN t_role_menu mr ON mr.role_id = r.rid
+	INNER JOIN t_menu m ON mr.menu_id = m.mid
+        WHERE user_name=#{username};
+    </select>
+
+</mapper>
