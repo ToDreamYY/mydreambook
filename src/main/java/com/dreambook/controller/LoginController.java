@@ -23,7 +23,7 @@ public class LoginController {
     }
     @RequestMapping("/loginUser")
     public String loginUser(String username, String password, HttpSession session) {
-        System.out.println("我要撤回");
+        System.out.println("我不要撤回");
         UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(username,password);
         Subject subject = SecurityUtils.getSubject();
         try {
