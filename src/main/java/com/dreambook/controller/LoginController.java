@@ -43,7 +43,7 @@ public class LoginController {
             session.setAttribute("user", user);
             session.setAttribute("list", modeles);
             /*授权*/
-            return "manager/index";
+            return "index";
         } catch(Exception e) {
             return "login";//返回登录页面
         }
