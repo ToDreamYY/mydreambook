@@ -23,6 +23,7 @@ public class LoginController {
     }
     @RequestMapping("/loginUser")
     public String loginUser(String username, String password, HttpSession session) {
+        System.out.println("我要贮藏");
         UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(username,password);
         Subject subject = SecurityUtils.getSubject();
         try {
