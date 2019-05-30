@@ -4,57 +4,61 @@ import com.dreambook.config.AuthRealm;
 import com.dreambook.doMain.Module;
 import com.dreambook.doMain.Role;
 import com.dreambook.doMain.User;
+import com.dreambook.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class LoginController {
+
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/login")
     public String login() {
         return "login";
     }
+
     @RequestMapping("/loginUser")
     public String loginUser(String username, String password, HttpSession session) {
-        System.out.println("我不要撤回");
-        UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(username,password);
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(usernamePasswordToken);   //完成登录
-            User user=(User) subject.getPrincipal();
+            User user = (User) subject.getPrincipal();
             Iterator<Role> it = user.getRoles().iterator();
-            List modeles = new ArrayList<>();
-            while (it.hasNext()) {
-                Role role = it.next();
-                /*role.getRname()是登录用户的权限*/
-                Iterator<Module> modele = role.getModules().iterator();
-                while (modele.hasNext()) {
-                    Module mo = modele.next();
-                    modeles.add(mo.getMname());
-                    /*mo.getMname()这是登录用户能看到的权限菜单*/
-                }
-            }
             session.setAttribute("user", user);
-            session.setAttribute("list", modeles);
             /*授权*/
-            return "index";
-        } catch(Exception e) {
+            return "manager/index";
+        } catch (Exception e) {
             return "login";//返回登录页面
         }
-
     }
+
+    /*通过uid去获取此用户的权限以及菜单*/
+    @RequestMapping("/findRolesAndMenusByUid")
+    @ResponseBody
+    public List<Map> findRolesAndMenusByUid(String uid){
+        return userService.findRolesAndMenusByUid(uid);
+    }
+
+
     @RequestMapping("/logOut")
     public String logOut(HttpSession session) {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-    // session.removeAttribute("user");
+        // session.removeAttribute("user");
         return "login.html";
     }
 }

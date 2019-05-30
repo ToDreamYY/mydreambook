@@ -34,4 +34,18 @@ FROM
         WHERE user_name=#{username};
     </select>
 
+
+    <select id="findRolesAndMenusByUid" parameterType="String" resultType="java.util.Map">
+   SELECT
+	u.*,
+	r.*,
+	m.*
+FROM
+	t_user u
+	INNER JOIN t_user_role ur ON ur.user_id= u.uid
+	INNER JOIN t_role r ON r.rid = ur.role_id
+	INNER JOIN t_role_menu mr ON mr.role_id = r.rid
+	INNER JOIN t_menu m ON mr.menu_id = m.mid
+        WHERE u.uid=#{uid} GROUP BY m.mname order by mid;
+    </select>
 </mapper>
