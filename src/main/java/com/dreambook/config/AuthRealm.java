@@ -27,7 +27,6 @@ public class AuthRealm extends AuthorizingRealm {
         if(token==null){
             return null;
         }
-        System.out.println("获取密码校验");
         UsernamePasswordToken utoken=(UsernamePasswordToken) token;//获取用户输入的token
         String username = utoken.getUsername();
         User user = userService.findByUserName(username);
@@ -39,25 +38,8 @@ public class AuthRealm extends AuthorizingRealm {
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        System.out.println("我开始获取权限");
-        User user=(User) principal.fromRealm(this.getClass().getName()).iterator().next();//获取session中的用户
-        List<String> permissions=new ArrayList<>();
-        Set<Role> roles = user.getRoles();
-        if(roles.size()>0) {
-            for(Role role : roles) {
-                Set<Module> modules = role.getModules();
-                if(modules.size()>0) {
-                    for(Module module : modules) {
-                        permissions.add(module.getMname());
-                    }
-                }
-            }
-        }
-        SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
-        info.addStringPermissions(permissions);//将权限放入shiro中.
-        System.out.println("我的权限有"+permissions);
-        System.out.println("我的权限有"+info);
-        return info;
+
+        return null;
     }
 
 }

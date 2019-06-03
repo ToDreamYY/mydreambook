@@ -40,7 +40,7 @@ public class LoginController {
             Iterator<Role> it = user.getRoles().iterator();
             session.setAttribute("user", user);
             /*授权*/
-            return "manager/index";
+            return "manager/index.html";
         } catch (Exception e) {
             return "login";//返回登录页面
         }

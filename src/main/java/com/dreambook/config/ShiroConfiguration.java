@@ -35,6 +35,8 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/js/**", "anon"); //表示可以匿名访问
         filterChainDefinitionMap.put("/images/**", "anon"); //表示可以匿名访问
         filterChainDefinitionMap.put("/layui/**", "anon"); //表示可以匿名访问
+        filterChainDefinitionMap.put("/fontend/noverify/**", "anon"); //表示可以匿名访问
+        filterChainDefinitionMap.put("/index.html", "anon"); //表示可以匿名访问
         filterChainDefinitionMap.put("/codejs/**", "anon"); //表示可以匿名访问
         filterChainDefinitionMap.put("/loginUser", "anon");
         filterChainDefinitionMap.put("/logout*","anon");
