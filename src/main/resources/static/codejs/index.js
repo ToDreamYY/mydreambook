@@ -10,7 +10,7 @@ $(function () {
             for (var i = 0; i < data.length; i++) {
              if(data[i].p_id==1){
                  /*取到父菜单*/
-              var li="<li id='"+data[i].mid+"'  class='a'><a href=\"javascript:;\"><i class='"+data[i].icon+"'></i><cite>"+data[i].mname+"</cite><i class='iconfont nav_right'>&#xe697;</i></a></li>"
+              var li="<li id='"+data[i].mid+"'  class='a'><a href=\"javascript:;\"><i class='iconfont'>"+data[i].icon+"</i><cite>"+data[i].mname+"</cite><i class='iconfont nav_right'>&#xe697;</i></a></li>"
                  $("#nav").append(li)
              }else{
 
@@ -20,7 +20,7 @@ $(function () {
             $(".a").each(function () {
                 for (var i = 0; i < data.length; i++) {
                     if($(this).attr("id")==data[i].p_id){
-                      ul+=" <li><a href='"+data[i].url+"' target='myifram'><i class=\"iconfont\">&#xe6a7;</i><cite>"+data[i].mname+"</cite></a></li>"
+                      ul+=" <li id='"+data[i].mid+"'><a href='"+data[i].url+"' target='myifram'><i class='iconfont'>"+data[i].icon+"</i><cite>"+data[i].mname+"</cite></a></li>"
                     }
                 }
                 ul+="</ul>";
@@ -31,7 +31,7 @@ $(function () {
 
         }
     })
-    $("body").on('click','.a',function(){
+    $("body").on('click','li',function(){
         if($(this).children('.sub-menu').length){
             if($(this).hasClass('open')){
                 $(this).removeClass('open');
